@@ -14,18 +14,25 @@ class ListaProdutos:
         for i in range(len(self.produtos)):
             for j in range(len(self.produtos) - 1):
                 if self.produtos[j].preco > self.produtos[j + 1].preco:
-                    self.produtos[j], self.produtos[j + 1] = self.produtos[j + 1], self.produtos[j]
+                    aux = self.produtos[j]
+                    self.produtos[j] = self.produtos[j + 1]
+                    self.produtos[j + 1] = aux
+                    #  self.produtos[j], self.produtos[j + 1] = self.produtos[j + 1], self.produtos[j]
                     
     def buscar_produto(self, nome):
+        if nome is None:
+            raise ValueError("Nome can't be null")
         start = 0
         end = len(self.produtos) - 1
+        if start > end:
+            return None
         while start <= end:
-            mid = (start + end) // 2
-            if self.produtos[mid].nome == nome:
-                return self.produtos[mid]
-            elif self.produtos[mid].nome < nome:
-                start = mid + 1
+            middle = start + (end - start) // 2
+            test = self.produtos[middle].nome
+            if test == nome:
+                return f'Position: {middle} | {self.produtos[middle]}'
+            if test > nome:
+                end = middle - 1
             else:
-                end = mid - 1
+                start = middle +1
         return None
-            
